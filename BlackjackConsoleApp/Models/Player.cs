@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+
 namespace BlackjackConsoleApp
 {
 	public class Player
@@ -9,7 +11,8 @@ namespace BlackjackConsoleApp
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public decimal Wallet { get; set; }
-        public DateTime DateCreated { get; set; }
+        [JsonIgnore]
+        public DateTime DateCreated { get; set; } = DateTime.Now;
         public decimal Winnings { get; set; } 
     }
 }
