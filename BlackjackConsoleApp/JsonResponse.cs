@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlackjackConsoleApp
 {
-    internal class JsonResponse
+    public class JsonResponse
     {
+        public int HttpStatusCode { get; set; } = 0;
+        public object? DataReturned { get; set; } = null;
+
     }
 }
