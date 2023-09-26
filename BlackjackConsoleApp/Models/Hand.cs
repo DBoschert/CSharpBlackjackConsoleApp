@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json.Serialization;
+
 namespace BlackjackConsoleApp
 {
 	public class Hand
@@ -9,7 +11,8 @@ namespace BlackjackConsoleApp
 		public int DealerHandTotal { get; set; }
 		public string WinLoss { get; set; } = string.Empty;
 		public decimal AmountWon { get; set; } = 0;
-		public int PlayerId { get; set; }
+		[JsonIgnore]
+		public DateTime DateTime { get; set; } = DateTime.Now;
 		public virtual Player? Player { get; set; }
 
 	}
