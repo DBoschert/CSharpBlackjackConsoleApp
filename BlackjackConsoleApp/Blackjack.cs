@@ -88,7 +88,7 @@ namespace BlackjackConsoleApp
             return player;
         }
 
-        private static void Header(Player player)
+        public static void Header(Player player)
         {
             Console.Clear();
             Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
@@ -104,7 +104,7 @@ namespace BlackjackConsoleApp
             Console.WriteLine($"Bet: {bet:c}");
         }
 
-        public static async Task<Player> Game(Player player)
+        public static async Task Game(Player player)
         {
             Header(player);
 
@@ -147,6 +147,9 @@ namespace BlackjackConsoleApp
                 // DEALER WIN
                 if (dealerScore == 21 && playerScore != 21)
                 {
+                    Header(player, hand.InitialBet);
+                    DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                    Console.WriteLine();
                     Console.WriteLine("DEALER WINS");
                     hand.PlayerHandTotal = playerScore;
                     hand.DealerHandTotal = dealerScore;
@@ -159,6 +162,9 @@ namespace BlackjackConsoleApp
                 // PLAYER WIN
                 else if(playerScore == 21 && dealerScore != 21)
                 {
+                    Header(player, hand.InitialBet);
+                    DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                    Console.WriteLine();
                     Console.WriteLine("YOU WIN");
                     hand.PlayerHandTotal = playerScore;
                     hand.DealerHandTotal = dealerScore;
@@ -171,6 +177,9 @@ namespace BlackjackConsoleApp
                 // DRAW
                 else if(playerScore == 21 && dealerScore == 21)
                 {
+                    Header(player, hand.InitialBet);
+                    DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                    Console.WriteLine();
                     Console.WriteLine("IT'S A DRAW");
                     hand.PlayerHandTotal = playerScore;
                     hand.DealerHandTotal = dealerScore;
@@ -203,6 +212,9 @@ namespace BlackjackConsoleApp
                             playerScore = CheckHand(playerCards);
                             if (playerScore > 21)
                             {
+                                Header(player, hand.InitialBet);
+                                DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                                Console.WriteLine();
                                 Console.WriteLine("BUST");
                                 hand.PlayerHandTotal = playerScore;
                                 hand.DealerHandTotal = dealerScore;
@@ -216,8 +228,6 @@ namespace BlackjackConsoleApp
                             hit = false;
                             break;
                     }
-                    Header(player, hand.InitialBet);
-                    DisplayCardsBeforeDealerHit(playerCards, dealerCards);
                 }
                 if (hand.WinLoss == string.Empty)
                 {
@@ -242,6 +252,9 @@ namespace BlackjackConsoleApp
                             if (dealerScore > 21)
                             {
                                 loop = false;
+                                Header(player, hand.InitialBet);
+                                DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                                Console.WriteLine();
                                 Console.WriteLine("DEALER BUST");
                                 hand.PlayerHandTotal = playerScore;
                                 hand.DealerHandTotal = dealerScore;
@@ -257,12 +270,13 @@ namespace BlackjackConsoleApp
                         }
                     }
                 }
-                Header(player, hand.InitialBet);
-                DisplayCardsAfterDealerHit(playerCards, dealerCards);
                 if(hand.WinLoss == string.Empty)
                 {
                     if(playerScore <= dealerScore)
                     {
+                        Header(player, hand.InitialBet);
+                        DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                        Console.WriteLine();
                         Console.WriteLine("DEALER WINS");
                         hand.PlayerHandTotal = playerScore;
                         hand.DealerHandTotal = dealerScore;
@@ -272,6 +286,9 @@ namespace BlackjackConsoleApp
                     }
                     else
                     {
+                        Header(player, hand.InitialBet);
+                        DisplayCardsAfterDealerHit(playerCards, dealerCards);
+                        Console.WriteLine();
                         Console.WriteLine("YOU WIN");
                         hand.PlayerHandTotal = playerScore;
                         hand.DealerHandTotal = dealerScore;
@@ -281,9 +298,8 @@ namespace BlackjackConsoleApp
                         await HandController.PostHand(hand);
                     }
                 }
+                looper = false;
             }
-
-            return player;
         }
 
         private static void DisplayCardsBeforeDealerHit(List<Card> playerCards, List<Card> dealerCards)
