@@ -42,6 +42,7 @@ namespace BlackjackConsoleApp
             bool looper = true;
             while (looper == true)
             {
+                Console.WriteLine();
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("1. Play Blackjack");
                 Console.WriteLine("2. Deposit");
@@ -113,6 +114,7 @@ namespace BlackjackConsoleApp
             {
                 string? input;
 
+                Console.WriteLine();
                 Console.Write("Initial Bet: ");
                 input = Console.ReadLine();
                 decimal nbr;
@@ -153,7 +155,7 @@ namespace BlackjackConsoleApp
                 // PLAYER WIN
                 else if(playerScore == 21 && dealerScore != 21)
                 {
-                    Console.WriteLine("PLAYER WINS");
+                    Console.WriteLine("YOU WIN");
                     hand.PlayerHandTotal = playerScore;
                     hand.DealerHandTotal = dealerScore;
                     hand.WinLoss = "WIN";
@@ -164,7 +166,7 @@ namespace BlackjackConsoleApp
                 // DRAW
                 else if(playerScore == 21 && dealerScore == 21)
                 {
-                    Console.WriteLine("PLAYER WINS");
+                    Console.WriteLine("IT'S A DRAW");
                     hand.PlayerHandTotal = playerScore;
                     hand.DealerHandTotal = dealerScore;
                     hand.WinLoss = "WIN";
@@ -173,6 +175,22 @@ namespace BlackjackConsoleApp
 
                 }
 
+                bool hit = true;
+
+                while (hit == true)
+                {
+                    switch (HitStand())
+                    {
+                        case "1":
+                            //HIT
+                            break;
+                        case "2":
+                            hit = false;
+                            break;
+                    }
+                    Header(player);
+                    DisplayCardsBeforeDealerHit(playerCards, dealerCards);
+                }
             }
 
 
@@ -203,6 +221,27 @@ namespace BlackjackConsoleApp
                 score += card.Value;
             }
             return score;
+        }
+
+        private static string HitStand()
+        {
+            string? input = "";
+            bool looper = true;
+            while (looper == true) {
+                Console.WriteLine();
+                Console.WriteLine("Hit or Stand?");
+                Console.WriteLine("1. Hit");
+                Console.WriteLine("2. Stand");
+                Console.Write("Please select a number: ");
+                input = Console.ReadLine();
+                if (input != "1" && input != "2")
+                {
+                    Console.WriteLine("INVALID INPUT");
+                    continue;
+                }
+                looper = false;
+            }
+            return input;
         }
 
     }
