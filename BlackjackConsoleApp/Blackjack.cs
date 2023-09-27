@@ -109,7 +109,7 @@ namespace BlackjackConsoleApp
             Shoe shoe = new Shoe();
 
             bool looper = true;
-            while(looper == true)
+            while (looper == true)
             {
                 string? input;
 
@@ -137,6 +137,42 @@ namespace BlackjackConsoleApp
 
                 DisplayCardsBeforeDealerHit(playerCards, dealerCards);
 
+                int playerScore = CheckHand(playerCards);
+                int dealerScore = CheckHand(dealerCards);
+                // DEALER WIN
+                if(dealerScore == 21 && playerScore != 21)
+                {
+                    Console.WriteLine("DEALER WINS");
+                    hand.PlayerHandTotal = playerScore;
+                    hand.DealerHandTotal = dealerScore;
+                    hand.WinLoss = "LOSS";
+                    hand.Player = player;
+                    await HandController.PostHand(hand);
+                    
+                }
+                // PLAYER WIN
+                else if(playerScore == 21 && dealerScore != 21)
+                {
+                    Console.WriteLine("PLAYER WINS");
+                    hand.PlayerHandTotal = playerScore;
+                    hand.DealerHandTotal = dealerScore;
+                    hand.WinLoss = "WIN";
+                    hand.Player = player;
+                    hand.AmountWon = hand.InitialBet * 1.5m;
+                    await HandController.PostHand(hand);
+                }
+                // DRAW
+                else if(playerScore == 21 && dealerScore == 21)
+                {
+                    Console.WriteLine("PLAYER WINS");
+                    hand.PlayerHandTotal = playerScore;
+                    hand.DealerHandTotal = dealerScore;
+                    hand.WinLoss = "WIN";
+                    hand.Player = player;
+                    await HandController.PostHand(hand);
+
+                }
+
             }
 
 
@@ -157,6 +193,16 @@ namespace BlackjackConsoleApp
             {
                 Console.WriteLine($"{card.Rank} of {card.Suit}");
             }
+        }
+
+        private static int CheckHand(List<Card> cards)
+        {
+            int score = 0;
+            foreach(Card card in cards)
+            {
+                score += card.Value;
+            }
+            return score;
         }
 
     }
