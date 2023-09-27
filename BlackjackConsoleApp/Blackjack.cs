@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace BlackjackConsoleApp
@@ -56,11 +57,38 @@ namespace BlackjackConsoleApp
                 }
                 else
                 {
-                    Console.WriteLine("Invalid Input");
+                    Console.WriteLine("INVALID INPUT");
                 }
             }
             return input;
         }
 
+        public static async Task Deposit(Player player)
+        {
+            string? input;
+            bool looper = true;
+            while (looper == true)
+            {
+                Console.Write("Deposit Amount: ");
+                input = Console.ReadLine();
+                decimal nbr;
+                bool success = decimal.TryParse(input, out nbr);
+
+                if (success == true)
+                {
+                    player.Wallet += nbr;
+                    await PlayerController.UpdatePlayer(player);
+                    looper = false;
+                }
+                else
+                {
+                    Console.WriteLine("INVALID INPUT");
+                }
+            }
+
+        }
+
     }
 }
+    
+
