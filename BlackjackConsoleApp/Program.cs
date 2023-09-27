@@ -10,6 +10,7 @@ switch(Blackjack.MainMenu())
         break;
     case "2":
         //deposit
+        await Blackjack.Deposit(player);
         break;
     case "3":
         //exit
