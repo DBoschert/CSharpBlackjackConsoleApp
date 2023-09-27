@@ -104,29 +104,59 @@ namespace BlackjackConsoleApp
 
         public static async Task<Player> Game(Player player)
         {
+            Header(player);
+
             Shoe shoe = new Shoe();
+
             bool looper = true;
-            string? input;
-            List<Card> playerCards;
-            List<Card> dealerCards;
             while(looper == true)
             {
+                string? input;
+
                 Console.Write("Initial Bet: ");
                 input = Console.ReadLine();
                 decimal nbr;
                 bool success = decimal.TryParse(input, out nbr);
+                if (success == false)
+                {
+                    Console.WriteLine("INVALID INPUT");
+                    continue;
+                }
+
                 Hand hand = new Hand();
                 hand.InitialBet = nbr;
                 Header(player, hand.InitialBet);
-                
 
-                shoe.ShoeOfCards.Pop;
+                List<Card> playerCards = new List<Card>();
+                List<Card> dealerCards = new List<Card>();
+
+                playerCards.Add(shoe.ShoeOfCards.Pop());
+                dealerCards.Add(shoe.ShoeOfCards.Pop());
+                playerCards.Add(shoe.ShoeOfCards.Pop());
+                dealerCards.Add(shoe.ShoeOfCards.Pop());
+
+                DisplayCardsBeforeDealerHit(playerCards, dealerCards);
+
             }
 
 
 
 
             return player;
+        }
+
+        private static void DisplayCardsBeforeDealerHit(List<Card> playerCards, List<Card> dealerCards)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Dealer's Hand:");
+            Console.WriteLine($"{dealerCards[0].Rank} of {dealerCards[0].Suit}");
+            Console.WriteLine("*Down Card*");
+            Console.WriteLine();
+            Console.WriteLine("Your Hand:");
+            foreach (Card card in playerCards)
+            {
+                Console.WriteLine($"{card.Rank} of {card.Suit}");
+            }
         }
 
     }
