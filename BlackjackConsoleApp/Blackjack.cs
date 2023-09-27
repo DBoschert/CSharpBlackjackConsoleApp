@@ -32,9 +32,7 @@ namespace BlackjackConsoleApp
                 }
                 break;
             }
-            Console.Clear();
-            Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
-            Console.WriteLine($"Wallet: {player.Wallet:c}");
+            Header(player);
             return player;
         }
 
@@ -53,7 +51,6 @@ namespace BlackjackConsoleApp
                 if (input == "1" || input == "2" || input == "3")
                 {
                     looper = false;
-                    Console.Clear();
                 }
                 else
                 {
@@ -63,12 +60,13 @@ namespace BlackjackConsoleApp
             return input;
         }
 
-        public static async Task Deposit(Player player)
+        public static async Task<Player> Deposit(Player player)
         {
             string? input;
             bool looper = true;
             while (looper == true)
             {
+                Header(player);
                 Console.Write("Deposit Amount: ");
                 input = Console.ReadLine();
                 decimal nbr;
@@ -85,7 +83,15 @@ namespace BlackjackConsoleApp
                     Console.WriteLine("INVALID INPUT");
                 }
             }
+            Header(player);
+            return player;
+        }
 
+        private static void Header(Player player)
+        {
+            Console.Clear();
+            Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
+            Console.WriteLine($"Wallet: {player.Wallet:c}");
         }
 
     }

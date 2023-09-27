@@ -31,6 +31,8 @@ namespace BlackjackConsoleApp
                 ShoeOfCards.Push(unshuffledShoe.ElementAt(randomIndex));
                 unshuffledShoe.RemoveAt(randomIndex);
             }
+
+            ReshuffleAtSize = random.Next(60, 76);
 		}
 	}
 }
