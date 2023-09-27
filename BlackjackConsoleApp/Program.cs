@@ -1,27 +1,23 @@
-﻿
 using BlackjackConsoleApp;
 using BlackjackConsoleApp.Models;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-const string baseurl = "http://localhost:8080";
-HttpClient http = new HttpClient();
+JsonResponse res = await PlayerController.PlayerLoginAsync("je", "passw");
+Player? player = res.DataReturned as Player;
+Console.WriteLine(res.HttpStatusCode);
 
-JsonSerializerOptions joptions = new JsonSerializerOptions()
-{
-    PropertyNameCaseInsensitive = true,
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    WriteIndented = true
-};
-Player? player = await LoginPrompt();
-JsonResponse jsonResponse;
+
+//Player? player = await LoginPrompt();
+//JsonResponse jsonResponse;
 
 
 
 // The problem atm is that when you put in a username and password that isn't
 // in the database the code runs into an error because it only checks if the player is nu
 // it needs to check if the player is in the database
+
 async Task<Player> LoginPrompt()
 {
     while (true)
@@ -49,8 +45,6 @@ async Task<Player> LoginPrompt()
     }
     return player;
 }
-
-
 
 // Must give every variable a value or will become blank and unusable
 var p1 = new Player()

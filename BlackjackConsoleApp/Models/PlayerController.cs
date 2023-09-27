@@ -1,27 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
-namespace BlackjackConsoleApp.Models
+namespace BlackjackConsoleApp
 {
-    public class PlayerController
+    public static class PlayerController
     {
-        const string baseurl = "http://localhost:8080";
-        // PLAYER LOGIN
-        public static async Task<JsonResponse> PlayerLoginAsync(HttpClient http, JsonSerializerOptions joptions, string username, string password)
+        private static string baseurl = "http://localhost:8080";
+
+        private static HttpClient http = new HttpClient();
+
+        private static JsonSerializerOptions joptions = new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        public static async Task<JsonResponse> PlayerLoginAsync(string username, string password)
         {
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, $"{baseurl}/api/players/{username}/{password}");
             HttpResponseMessage res = await http.SendAsync(req);
-            if (res.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                Console.WriteLine($"Http ErrorCode: {res.StatusCode}");
-            }
             var json = await res.Content.ReadAsStringAsync();
-            var player = (Player?)JsonSerializer.Deserialize(json, typeof(Player), joptions);
-            if (player is null) throw new Exception();
+            Player? player;
+            try
+            {
+                player = (Player?)JsonSerializer.Deserialize(json, typeof(Player), joptions);
+            }
+            catch
+            {
+                player = null;
+            }
             return new JsonResponse
             {
                 HttpStatusCode = (int)res.StatusCode,
