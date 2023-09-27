@@ -94,6 +94,16 @@ namespace BlackjackConsoleApp
             Console.WriteLine($"Wallet: {player.Wallet:c}");
         }
 
+        public static async Task<Player> Game(Player player)
+        {
+            Shoe shoe = new Shoe();
+
+
+
+
+            return player;
+        }
+
     }
 }
     

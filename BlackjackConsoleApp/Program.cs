@@ -9,7 +9,7 @@ while (looper == true)
     switch (Blackjack.MainMenu())
     {
         case "1":
-            //play game
+            player = await Blackjack.Game(player);
             break;
         case "2":
             player = await Blackjack.Deposit(player);
