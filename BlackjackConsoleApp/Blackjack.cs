@@ -189,22 +189,20 @@ namespace BlackjackConsoleApp
                             Header(player, hand.InitialBet);
                             DisplayCardsBeforeDealerHit(playerCards, dealerCards);
                             playerScore = CheckHand(playerCards);
-
-
                             if (playerScore > 21)
                             {
-                                
-                                int count;
-                                foreach(Card card in playerCards)
+                                for (int i = 0; i < playerCards.Count; i++)
                                 {
-                                    if(card.Rank == "Ace")
+                                    if (playerCards[i].Rank == "Ace" && playerCards[i].Value == 11)
                                     {
-
-                                        count++;
+                                        playerCards[i].Value = 1;
+                                        break;
                                     }
                                 }
-
-
+                            }
+                            playerScore = CheckHand(playerCards);
+                            if (playerScore > 21)
+                            {
                                 Console.WriteLine("BUST");
                                 hand.PlayerHandTotal = playerScore;
                                 hand.DealerHandTotal = dealerScore;
@@ -221,6 +219,36 @@ namespace BlackjackConsoleApp
                     Header(player, hand.InitialBet);
                     DisplayCardsBeforeDealerHit(playerCards, dealerCards);
                 }
+                if (hand.WinLoss == string.Empty)
+                {
+                    if (dealerScore < 17)
+                    {
+                        dealerCards.Add(shoe.ShoeOfCards.Pop());
+                        dealerScore = CheckHand(dealerCards);
+                        if (dealerScore > 21)
+                        {
+                            for (int i = 0; i < dealerCards.Count; i++)
+                            {
+                                if (dealerCards[i].Rank == "Ace" && dealerCards[i].Value == 11)
+                                {
+                                    dealerCards[i].Value = 1;
+                                    break;
+                                }
+                            }
+                        }
+                        dealerScore = CheckHand(playerCards);
+                        if (dealerScore > 21)
+                        {
+                            Console.WriteLine("DEALER BUST");
+                            hand.PlayerHandTotal = playerScore;
+                            hand.DealerHandTotal = dealerScore;
+                            hand.WinLoss = "WIN";
+                            hand.Player = player;
+                            hand.AmountWon = hand.InitialBet;
+                            await HandController.PostHand(hand);
+                        }
+                    }
+                }
             }
 
 
@@ -235,6 +263,22 @@ namespace BlackjackConsoleApp
             Console.WriteLine("Dealer's Hand:");
             Console.WriteLine($"{dealerCards[0].Rank} of {dealerCards[0].Suit}");
             Console.WriteLine("*Down Card*");
+            Console.WriteLine();
+            Console.WriteLine("Your Hand:");
+            foreach (Card card in playerCards)
+            {
+                Console.WriteLine($"{card.Rank} of {card.Suit}");
+            }
+        }
+
+        private static void DisplayCardsAfterDealerHit(List<Card> playerCards, List<Card> dealerCards)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Dealer's Hand:");
+            foreach (Card card in dealerCards)
+            {
+                Console.WriteLine($"{card.Rank} of {card.Suit}");
+            }
             Console.WriteLine();
             Console.WriteLine("Your Hand:");
             foreach (Card card in playerCards)
