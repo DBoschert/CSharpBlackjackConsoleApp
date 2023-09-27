@@ -107,6 +107,8 @@ namespace BlackjackConsoleApp
             Shoe shoe = new Shoe();
             bool looper = true;
             string? input;
+            List<Card> playerCards;
+            List<Card> dealerCards;
             while(looper == true)
             {
                 Console.Write("Initial Bet: ");
@@ -116,7 +118,9 @@ namespace BlackjackConsoleApp
                 Hand hand = new Hand();
                 hand.InitialBet = nbr;
                 Header(player, hand.InitialBet);
+                
 
+                shoe.ShoeOfCards.Pop;
             }
 
 
