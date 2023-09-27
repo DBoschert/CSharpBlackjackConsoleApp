@@ -32,9 +32,34 @@ namespace BlackjackConsoleApp
                 break;
             }
             Console.Clear();
-            Console.WriteLine($"Welcome {player.FirstName + player.LastName}");
-            Console.WriteLine($"Wallet: {player.Wallet}");
+            Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
+            Console.WriteLine($"Wallet: {player.Wallet:c}");
             return player;
+        }
+
+        public static string? MainMenu()
+        {
+            string? input = "";
+            bool looper = true;
+            while (looper == true)
+            {
+                Console.WriteLine("Main Menu");
+                Console.WriteLine("1. Play Blackjack");
+                Console.WriteLine("2. Deposit");
+                Console.WriteLine("3. Exit");
+                Console.Write("Please select a number: ");
+                input = Console.ReadLine();
+                if (input == "1" || input == "2" || input == "3")
+                {
+                    looper = false;
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+            }
+            return input;
         }
 
     }
