@@ -94,9 +94,34 @@ namespace BlackjackConsoleApp
             Console.WriteLine($"Wallet: {player.Wallet:c}");
         }
 
+        private static void Header(Player player, decimal bet)
+        {
+            Console.Clear();
+            decimal displayWallet = player.Wallet - bet;
+            Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
+            Console.WriteLine($"Wallet: {displayWallet:c}");
+        }
+
         public static async Task<Player> Game(Player player)
         {
             Shoe shoe = new Shoe();
+            bool looper = true;
+            string? input;
+            List<Card> playerCards;
+            List<Card> dealerCards;
+            while(looper == true)
+            {
+                Console.Write("Initial Bet: ");
+                input = Console.ReadLine();
+                decimal nbr;
+                bool success = decimal.TryParse(input, out nbr);
+                Hand hand = new Hand();
+                hand.InitialBet = nbr;
+                Header(player, hand.InitialBet);
+                
+
+                shoe.ShoeOfCards.Pop;
+            }
 
 
 
