@@ -29,6 +29,20 @@ namespace BlackjackConsoleApp.Models
             };
         }
 
+       public static async Task<JsonResponse> UpdatePlayer(Player play1, JsonSerializerOptions options)
+        {
+            HttpClient http = new HttpClient();
+            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Put, $"{baseurl}/api/players/{play1.Id}");
+            var json = JsonSerializer.Serialize<Player>(play1, options);
+            req.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage res = await http.SendAsync(req);
+            Console.WriteLine($"HTTP StatusCode is {res.StatusCode}");
+            return new JsonResponse()
+            {
+                HttpStatusCode = (int)res.StatusCode
+            };
+        }
+
 
 
     }
