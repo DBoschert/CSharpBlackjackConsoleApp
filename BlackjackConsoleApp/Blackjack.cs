@@ -185,7 +185,34 @@ namespace BlackjackConsoleApp
                     switch (HitStand())
                     {
                         case "1":
-                            //HIT
+                            playerCards.Add(shoe.ShoeOfCards.Pop());
+                            Header(player, hand.InitialBet);
+                            DisplayCardsBeforeDealerHit(playerCards, dealerCards);
+                            playerScore = CheckHand(playerCards);
+
+
+                            if (playerScore > 21)
+                            {
+                                
+                                int count;
+                                foreach(Card card in playerCards)
+                                {
+                                    if(card.Rank == "Ace")
+                                    {
+
+                                        count++;
+                                    }
+                                }
+
+
+                                Console.WriteLine("BUST");
+                                hand.PlayerHandTotal = playerScore;
+                                hand.DealerHandTotal = dealerScore;
+                                hand.WinLoss = "LOSS";
+                                hand.Player = player;
+                                await HandController.PostHand(hand);
+                                hit = false;
+                            }
                             break;
                         case "2":
                             hit = false;
