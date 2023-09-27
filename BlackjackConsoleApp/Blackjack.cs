@@ -101,6 +101,7 @@ namespace BlackjackConsoleApp
             decimal displayWallet = player.Wallet - bet;
             Console.WriteLine($"Welcome {player.FirstName} {player.LastName}");
             Console.WriteLine($"Wallet: {displayWallet:c}");
+            Console.WriteLine($"Bet: {bet:c}");
         }
 
         public static async Task<Player> Game(Player player)
@@ -115,7 +116,7 @@ namespace BlackjackConsoleApp
                 string? input;
 
                 Console.WriteLine();
-                Console.Write("Initial Bet: ");
+                Console.Write("Enter Your Bet: ");
                 input = Console.ReadLine();
                 decimal nbr;
                 bool success = decimal.TryParse(input, out nbr);
@@ -141,8 +142,10 @@ namespace BlackjackConsoleApp
 
                 int playerScore = CheckHand(playerCards);
                 int dealerScore = CheckHand(dealerCards);
+
+                bool hit = true;
                 // DEALER WIN
-                if(dealerScore == 21 && playerScore != 21)
+                if (dealerScore == 21 && playerScore != 21)
                 {
                     Console.WriteLine("DEALER WINS");
                     hand.PlayerHandTotal = playerScore;
@@ -150,6 +153,7 @@ namespace BlackjackConsoleApp
                     hand.WinLoss = "LOSS";
                     hand.Player = player;
                     await HandController.PostHand(hand);
+                    hit = false;
                     
                 }
                 // PLAYER WIN
@@ -162,6 +166,7 @@ namespace BlackjackConsoleApp
                     hand.Player = player;
                     hand.AmountWon = hand.InitialBet * 1.5m;
                     await HandController.PostHand(hand);
+                    hit = false;
                 }
                 // DRAW
                 else if(playerScore == 21 && dealerScore == 21)
@@ -172,10 +177,8 @@ namespace BlackjackConsoleApp
                     hand.WinLoss = "WIN";
                     hand.Player = player;
                     await HandController.PostHand(hand);
-
+                    hit = false;
                 }
-
-                bool hit = true;
 
                 while (hit == true)
                 {
@@ -188,7 +191,7 @@ namespace BlackjackConsoleApp
                             hit = false;
                             break;
                     }
-                    Header(player);
+                    Header(player, hand.InitialBet);
                     DisplayCardsBeforeDealerHit(playerCards, dealerCards);
                 }
             }
