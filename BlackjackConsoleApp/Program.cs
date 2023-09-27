@@ -1,16 +1,10 @@
 using BlackjackConsoleApp;
-using BlackjackConsoleApp.Models;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-JsonResponse res = await PlayerController.PlayerLoginAsync("je", "passw");
-Player? player = res.DataReturned as Player;
-Console.WriteLine(res.HttpStatusCode);
 
 
-//Player? player = await LoginPrompt();
-//JsonResponse jsonResponse;
+
+
+
+await Blackjack.LoginPrompt();
 
 
 
@@ -18,6 +12,8 @@ Console.WriteLine(res.HttpStatusCode);
 // in the database the code runs into an error because it only checks if the player is nu
 // it needs to check if the player is in the database
 
+
+/*
 async Task<Player> LoginPrompt()
 {
     while (true)
@@ -26,7 +22,7 @@ async Task<Player> LoginPrompt()
         string? username = Console.ReadLine();
         Console.Write("Enter Password: ");
         string? password = Console.ReadLine();
-        jsonResponse = await PlayerController.PlayerLoginAsync(http, joptions, username!, password!);
+        jsonResponse = await PlayerController.PlayerLoginAsync(username!, password!);
         player = jsonResponse.DataReturned as Player;
         var status = jsonResponse.HttpStatusCode;
         Console.WriteLine($"status = {status}");
@@ -45,8 +41,10 @@ async Task<Player> LoginPrompt()
     }
     return player;
 }
+*/
 
-// Must give every variable a value or will become blank and unusable
+
+/*
 var p1 = new Player()
 {
     Id = player.Id,
@@ -54,9 +52,10 @@ var p1 = new Player()
     LastName = player.LastName,
     Username = player.Username,
     Password = player.Password,
-    Wallet = 1800,
+    Wallet = 1900,
     Winnings = 700
 
 };
 
-await PlayerController.UpdatePlayer(p1, joptions);
+await PlayerController.UpdatePlayer(p1);
+*/
