@@ -248,7 +248,7 @@ namespace BlackjackConsoleApp
                                     }
                                 }
                             }
-                            dealerScore = CheckHand(playerCards);
+                            dealerScore = CheckHand(dealerCards);
                             if (dealerScore > 21)
                             {
                                 loop = false;
@@ -272,7 +272,11 @@ namespace BlackjackConsoleApp
                 }
                 if(hand.WinLoss == string.Empty)
                 {
-                    if(playerScore <= dealerScore)
+
+                    dealerScore = CheckHand(dealerCards);
+
+                    
+                    if (playerScore <= dealerScore && dealerScore <= 21)
                     {
                         Header(player, hand.InitialBet);
                         DisplayCardsAfterDealerHit(playerCards, dealerCards);

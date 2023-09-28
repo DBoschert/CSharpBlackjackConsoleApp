@@ -20,7 +20,7 @@ namespace BlackjackConsoleApp
         public static async Task PostHand(Hand hand)
         {
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, url);
-            var json = JsonSerializer.Serialize(hand, jsonOptions);gi
+            var json = JsonSerializer.Serialize(hand, jsonOptions);
             req.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             await _http.SendAsync(req);
             return;
